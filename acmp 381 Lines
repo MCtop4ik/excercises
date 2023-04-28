@@ -1,0 +1,55 @@
+
+from collections import deque
+
+
+def bfs(grapf, node, stop):
+    d = {node: 0}
+    edge = deque([node])
+    while edge:
+        i = edge.pop()
+        for j in grapf[i]:
+            if j not in d:
+                if j == stop:
+                    return (True, d)
+                edge.appendleft(j)
+                d[j] = d[i] + 1
+    return (False,  d)
+
+gr = {}
+a = int(input())
+arr = []
+start, end = (), ()
+for i in range(a):
+    b = list(input())
+    if '@' in b:
+        start = (i, b.index('@'))
+    elif 'X' in b:
+        end = (i, b.index('X'))
+    arr.append(b)
+
+for i in range(a):
+    for j in range(a):
+        if arr[i][j] != 'O':
+            nodes = []
+            if i + 1 < a and arr[i + 1][j] != 'O':
+                nodes.append((i + 1, j))
+            if i - 1 >= 0 and arr[i - 1][j] != 'O':
+                nodes.append((i - 1, j))
+            if j + 1 < a and arr[i][j + 1] != 'O':
+                nodes.append((i, j + 1))
+            if j - 1 >= 0 and arr[i][j - 1] != 'O':
+                nodes.append((i, j - 1))
+        gr[(i, j)] = nodes
+ans, dictionary = bfs(gr, start, end)
+if ans:
+    print("YES", dictionary)
+    maxx = max(dictionary.values())
+    dictt = {}
+    for key, value in dictionary.items():
+        if dictt.get(value) is not None:
+            dictt[value] = [dictt.get(value), key]
+        else:
+            dictt[value] = [key]
+    print(dictt)
+else:
+    print("NO")
