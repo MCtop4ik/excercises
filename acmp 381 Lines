@@ -39,7 +39,7 @@ for i in range(a):
                 nodes.append((i, j + 1))
             if j - 1 >= 0 and arr[i][j - 1] != 'O':
                 nodes.append((i, j - 1))
-        gr[(i, j)] = nodes
+            gr[(i, j)] = nodes
 ans, dictionary = bfs(gr, start, end)
 if ans:
     print("YES", dictionary)
